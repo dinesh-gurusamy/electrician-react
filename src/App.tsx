@@ -10,17 +10,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton"
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import {
   Table,
@@ -33,31 +23,14 @@ import {
 import data from "@/app/dashboard/data.json"
 import { CustomersPage } from "./customer"
 import { StorePage} from "./store";
+import { MaterialsPage } from "./materials";
 
 const tableData = schema.array().parse(data)
 const API_BASE_URL = import.meta.env.DEV
   ? "/api"
   : (import.meta.env.VITE_API_BASE_URL ?? "/api")
-const CUSTOMERS_API_URL = `${API_BASE_URL}/customers`
 const QUOTATIONS_API_URL = `${API_BASE_URL}/quotations`
 const QUOTATION_ITEMS_API_URL = `${API_BASE_URL}/quotations`
-
-type Customer = {
-  id: number
-  name: string
-  phone: string | null
-  address: string | null
-  created_at: string
-}
-
-type CustomersApiResponse = {
-  customers: Customer[]
-}
-
-type ApiCustomerPayload = {
-  customer?: Customer[] | Customer
-  customers?: Customer[]
-}
 
 type Quotation = {
   id: number
@@ -479,13 +452,12 @@ export function App() {
           element={<QuotationsPage />}
         />
         <Route
+          path="/quotations/:id"
+          element={<ViewQuotationPage />}
+        />
+        <Route
           path="/materials"
-          element={
-            <SmallPage
-              title="Materials catalog"
-              subtitle="Browse all electrical materials with rates and stock info."
-            />
-          }
+          element={<MaterialsPage />}
         />
         <Route
           path="/customers"
