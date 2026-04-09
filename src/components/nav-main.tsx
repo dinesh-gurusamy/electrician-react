@@ -6,6 +6,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { NavLink, useLocation } from "react-router-dom"
 import { CirclePlusIcon, MailIcon } from "lucide-react"
 
 export function NavMain({
@@ -15,8 +16,11 @@ export function NavMain({
     title: string
     url: string
     icon?: React.ReactNode
+    end?: boolean
   }[]
 }) {
+  const { pathname } = useLocation()
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -44,9 +48,15 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon}
-                <span>{item.title}</span>
+              <SidebarMenuButton
+                asChild
+                tooltip={item.title}
+                isActive={item.end ? pathname === item.url : pathname.startsWith(item.url)}
+              >
+                <NavLink to={item.url} end={item.end}>
+                  {item.icon}
+                  <span>{item.title}</span>
+                </NavLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

@@ -16,6 +16,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { NavLink } from "react-router-dom"
 import { MoreHorizontalIcon, FolderIcon, ShareIcon, Trash2Icon } from "lucide-react"
 
 export function NavDocuments({
@@ -36,10 +37,10 @@ export function NavDocuments({
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <NavLink to={item.url}>
                 {item.icon}
                 <span>{item.name}</span>
-              </a>
+              </NavLink>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
