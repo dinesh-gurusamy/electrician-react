@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import {
@@ -16,8 +15,6 @@ import {
   Building2Icon,
   CommandIcon,
   LayoutDashboardIcon,
-  PackageSearchIcon,
-  PlusSquareIcon,
   ReceiptTextIcon,
   StoreIcon,
   UserRoundIcon,
@@ -56,17 +53,7 @@ const data = {
       ),
     },
     {
-      title: "Electrical stores",
-      url: "/stores",
-      icon: (
-        <StoreIcon
-        />
-      ),
-    },
-  ],
-  documents: [
-    {
-      name: "All quotations",
+      title: "All quotations",
       url: "/quotations",
       icon: (
         <ReceiptTextIcon
@@ -74,18 +61,10 @@ const data = {
       ),
     },
     {
-      name: "Materials catalog",
-      url: "/materials",
+      title: "Electrical stores",
+      url: "/stores",
       icon: (
-        <Building2Icon
-        />
-      ),
-    },
-    {
-      name: "Customers",
-      url: "/customers",
-      icon: (
-        <UserRoundIcon
+        <StoreIcon
         />
       ),
     },
@@ -104,7 +83,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Ilansuryan</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -112,7 +91,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

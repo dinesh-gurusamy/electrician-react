@@ -1,14 +1,8 @@
 
 
-import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react"
-import { Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
-
-import { AppSidebar } from "@/components/app-sidebar"
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable, schema } from "@/components/data-table"
-import { SectionCards } from "@/components/section-cards"
-import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -31,7 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import data from "@/app/dashboard/data.json"
+
 
 const API_BASE_URL = import.meta.env.DEV
   ? "/api"
@@ -53,50 +47,10 @@ type ApiCustomerPayload = {
   customers?: Customer[]
 }
 
-type Quotation = {
-  id: number
-  electrician_id: number | null
-  customer_id: number | null
-  store_id: number | null
-  notes: string | null
-  created_at: string
-  customers?: {
-    name?: string | null
-  } | null
-  stores?: {
-    name?: string | null
-  } | null
-  electricians?: {
-    name?: string | null
-  } | null
-}
-
-type QuotationsApiResponse = {
-  quotations: Quotation[]
-}
-
-type QuotationItem = {
-  id: number
-  quantity: number | null
-  materials?: {
-    id?: number
-    name?: string | null
-    description?: string | null
-    image_url?: string | null
-  } | null
-}
-
-type QuotationDetail = Quotation & {
-  quotation_items?: QuotationItem[]
-}
-
-type QuotationDetailApiResponse = {
-  quotation?: QuotationDetail
-}
-
 const CUSTOMERS_API_URL = `${API_BASE_URL}/customers`
 
 export function CustomersPage() {
+  const navigate = useNavigate()
   const [customers, setCustomers] = useState<Customer[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -448,7 +402,13 @@ export function CustomersPage() {
                 <TableBody>
                   {filteredCustomers.length > 0 ? (
                     filteredCustomers.map((customer) => (
-                      <TableRow key={customer.id}>
+                      <TableRow
+                        key={customer.id}
+                        className="cursor-pointer"
+                        onClick={() =>
+                          navigate(`/quotations?customerId=${customer.id}`)
+                        }
+                      >
                         <TableCell>{customer.id}</TableCell>
                         <TableCell className="font-medium">{customer.name}</TableCell>
                         <TableCell>{customer.phone ?? "-"}</TableCell>
@@ -460,7 +420,10 @@ export function CustomersPage() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => openEditCustomerPopup(customer)}
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              openEditCustomerPopup(customer)
+                            }}
                           >
                             Edit
                           </Button>
